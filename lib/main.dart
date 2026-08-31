@@ -9,7 +9,7 @@ void main() {
 
   // Draw behind the system bars so the white hero and the blue glow run to the
   // physical edges. This has to happen before runApp, and the Android theme
-  // must also declare transparent bars (see android/.../styles.xml) — Dart
+  // must also declare transparent bars (see android/.../styles.xml) - Dart
   // alone cannot override an opaque window theme.
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

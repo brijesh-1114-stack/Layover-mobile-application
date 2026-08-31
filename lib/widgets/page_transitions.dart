@@ -5,7 +5,7 @@ import '../theme/motion.dart';
 /// A soft fade-and-rise transition used for every push in the onboarding flow.
 ///
 /// Material's default slide is too abrupt for screens whose whole identity is a
-/// large soft gradient — the hard horizontal edge fights the artwork. This eases
+/// large soft gradient - the hard horizontal edge fights the artwork. This eases
 /// the incoming screen up a short distance while fading, and holds the outgoing
 /// one still so the gradients cross-dissolve instead of racing each other.
 class FadeThroughRoute<T> extends PageRouteBuilder<T> {

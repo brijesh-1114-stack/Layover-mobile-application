@@ -1,7 +1,7 @@
 # Layover
 
-A mobile app for people stuck somewhere temporarily — airports, stations,
-waiting rooms, long queues — who want light, low-pressure company for as long
+A mobile app for people stuck somewhere temporarily - airports, stations,
+waiting rooms, long queues - who want light, low-pressure company for as long
 as the wait lasts.
 
 Presence is ephemeral by design: you check in, you're visible for the duration
@@ -16,11 +16,11 @@ Onboarding is implemented. The rest of the flow is designed but not yet built.
 
 | Screen | State |
 |---|---|
-| 01 — Welcome (doubles as the splash) | Built |
-| 02 — Three simple steps | Built |
-| 03 — Enable location | Designed |
-| 04 — Check in | Designed |
-| 05 — Limbo feed | Designed |
+| 01 - Welcome (doubles as the splash) | Built |
+| 02 - Three simple steps | Built |
+| 03 - Enable location | Designed |
+| 04 - Check in | Designed |
+| 05 - Limbo feed | Designed |
 
 The Phase 1 implementation plan lives in
 [`docs/superpowers/plans/`](docs/superpowers/plans/).

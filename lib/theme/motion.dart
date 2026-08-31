@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// The app's single motion vocabulary.
 ///
 /// Every duration and curve in the app comes from here. Screens that each pick
-/// their own timings read as unrelated animations even when the shapes match —
+/// their own timings read as unrelated animations even when the shapes match -
 /// the rhythm is what makes motion feel like one product rather than several.
 class Motion {
   const Motion._();
@@ -35,7 +35,7 @@ class Motion {
   /// Anything leaving: accelerates away.
   static const Curve exit = Curves.easeInCubic;
 
-  /// A component changing in place. Material 3's emphasized easing — a weighted
+  /// A component changing in place. Material 3's emphasized easing - a weighted
   /// start and a long settle, which reads smoother than a symmetric ease on a
   /// large size change.
   static const Curve inPlace = Curves.easeInOutCubicEmphasized;
@@ -59,13 +59,13 @@ class Motion {
   static const Interval backdrop = Interval(0.00, 0.90, curve: enter);
 
   /// The same window on the way out, but accelerating away instead of
-  /// decelerating in — replaying the entrance curve backwards makes the exit
+  /// decelerating in - replaying the entrance curve backwards makes the exit
   /// crawl at the start and snap at the end.
   static const Interval backdropOut = Interval(0.00, 0.90, curve: exit);
 
   // -------------------------------------------------------------- reveal feel
 
-  /// Text resolves out of blur with almost no travel — it should read as
+  /// Text resolves out of blur with almost no travel - it should read as
   /// coming into focus, not sliding in.
   static const double textSigma = 14;
   static const double textRise = 6;

@@ -7,7 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text.dart';
 import '../../theme/motion.dart';
+import '../../auth/mock_auth_service.dart';
 import '../../widgets/blur_reveal.dart';
+import '../../widgets/page_transitions.dart';
+import '../auth/auth_flow.dart';
 
 /// One row of the "Three simple steps" list.
 class _Step {
@@ -36,9 +39,9 @@ const _steps = <_Step>[
   ),
 ];
 
-/// Onboarding 02 — "Three simple steps to connect."
+/// Onboarding 02 - "Three simple steps to connect."
 ///
-/// The steps advance only when the user taps Next — nothing moves on its own.
+/// The steps advance only when the user taps Next - nothing moves on its own.
 /// Figma pins the step group's *bottom* edge at y=717 in all three states, so
 /// the list grows upward as a step expands and the button never moves.
 class OnboardingScreenTwo extends StatefulWidget {
@@ -109,7 +112,14 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo>
   }
 
   void _next() {
-    if (_onLastStep) return; // TODO: advance to screen 03
+    if (_onLastStep) {
+      Navigator.of(context).push(
+        FadeThroughRoute<void>(
+          child: AuthFlowHost(service: MockAuthService()),
+        ),
+      );
+      return;
+    }
     setState(() => _active++);
   }
 
@@ -134,7 +144,7 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo>
         if (!didPop) _handleBack();
       },
       child: AnnotatedRegion<SystemUiOverlayStyle>(
-      // Saturated blue at the top, so the status bar needs light icons — the
+      // Saturated blue at the top, so the status bar needs light icons - the
       // opposite of screen 01.
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -148,7 +158,7 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo>
         body: Stack(
           clipBehavior: Clip.hardEdge,
           children: [
-            // Positioned must stay a direct child of the Stack — wrapping it in
+            // Positioned must stay a direct child of the Stack - wrapping it in
             // the AnimatedBuilder silently discarded its coordinates.
             // The blur is rasterised once inside the RepaintBoundary and only
             // translated per frame; re-running a 47px gaussian every frame
@@ -202,7 +212,7 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo>
                     ),
                   ),
 
-                  // Step list — bottom pinned, exactly as in Figma
+                  // Step list - bottom pinned, exactly as in Figma
                   Positioned(
                     left: 20 * s,
                     right: 20 * s,
@@ -259,7 +269,7 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo>
 ///
 /// Driven by one controller. The previous version stacked four independent
 /// implicit animations per row, which drifted out of phase, and animated the
-/// title's *font size* — re-laying out glyphs every frame and re-measuring the
+/// title's *font size* - re-laying out glyphs every frame and re-measuring the
 /// bottom-pinned list with them. That relayout was the jerk.
 ///
 /// Here the title is laid out once at its active size and scaled by transform,
@@ -354,7 +364,7 @@ class _StepRowState extends State<_StepRow>
               children: [
                 SizedBox(
                   // The row's own height still interpolates, but it is a plain
-                  // box — nothing inside it is re-measured.
+                  // box - nothing inside it is re-measured.
                   height: lerpDouble(24, 38, t)! * s,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

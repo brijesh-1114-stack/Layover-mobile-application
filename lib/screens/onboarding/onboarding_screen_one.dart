@@ -10,12 +10,12 @@ import '../../widgets/blur_reveal.dart';
 import '../../widgets/page_transitions.dart';
 import 'onboarding_screen_two.dart';
 
-/// Onboarding 01 — opens as the splash, then resolves into the welcome screen.
+/// Onboarding 01 - opens as the splash, then resolves into the welcome screen.
 ///
 /// The wordmark blur-reveals large and centred, holds, then flies up and shrinks
 /// into its header slot while the rest of the screen arrives behind it. This is
 /// one continuous animation on one screen rather than a splash route handing
-/// over to another — a route change in the middle would cut the very motion
+/// over to another - a route change in the middle would cut the very motion
 /// that ties the two states together.
 ///
 /// Layout is scaled from the 393pt Figma frame width. The vertical
@@ -43,7 +43,7 @@ class _OnboardingScreenOneState extends State<OnboardingScreenOne>
 
   /// Clear space between the illustration's opaque white base and the glow.
   /// Close this and the illustration's bottom edge cuts a visible seam across
-  /// the blue — which is exactly what a derived-from-aspect height did.
+  /// the blue - which is exactly what a derived-from-aspect height did.
   static const double _artToGlow = 43;
 
   /// The wordmark's splash size, before it settles into the header.
@@ -64,7 +64,7 @@ class _OnboardingScreenOneState extends State<OnboardingScreenOne>
   /// Splash: the mark resolves out of blur, then holds while nothing else moves.
   late final Animation<double> _markReveal = _on(0.00, 0.22);
 
-  /// The flight into the header. An in-place curve, not an entrance one — this
+  /// The flight into the header. An in-place curve, not an entrance one - this
   /// is a single object moving, so it eases out of rest and back into it.
   late final Animation<double> _markFlight =
       _on(0.34, 0.60, curve: Motion.inPlace);
@@ -85,7 +85,7 @@ class _OnboardingScreenOneState extends State<OnboardingScreenOne>
   void initState() {
     super.initState();
     // On a cold start Flutter paints its first frames into a surface Android
-    // has not composited yet — measured on device, an immediate start plays
+    // has not composited yet - measured on device, an immediate start plays
     // out entirely before anything reaches the screen.
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Future<void>.delayed(const Duration(milliseconds: 320));
@@ -236,7 +236,7 @@ class _FlyingWordmark extends StatelessWidget {
     final headerLeft = (viewport.width - smallW) / 2;
     final headerTop = safeTop + _OnboardingScreenOneState.logoTop * s;
 
-    // Sits slightly above true centre — optically centred reads better than
+    // Sits slightly above true centre - optically centred reads better than
     // mathematically centred for a lone mark.
     final splashLeft = (viewport.width - bigW) / 2;
     final splashTop = viewport.height * 0.44 - bigH / 2;
@@ -269,7 +269,7 @@ class _FlyingWordmark extends StatelessWidget {
   }
 }
 
-/// Three overlapping circles under a single layer blur at 90% opacity — the
+/// Three overlapping circles under a single layer blur at 90% opacity - the
 /// same construction as the Figma frame, not a LinearGradient.
 class _Glow extends StatelessWidget {
   const _Glow({required this.scale, required this.top});
@@ -397,7 +397,7 @@ class _Copy extends StatelessWidget {
 /// A single line of copy that resolves out of blur on its own timeline.
 ///
 /// The lines are separate widgets rather than one `Text` with a newline so each
-/// can carry its own stagger — the reference motion resolves line by line, not
+/// can carry its own stagger - the reference motion resolves line by line, not
 /// as one block.
 class _Line extends StatelessWidget {
   const _Line({
@@ -462,7 +462,7 @@ class _GetStartedButton extends StatelessWidget {
                 ),
                 SizedBox(width: 12 * s),
                 // Exported from Figma: a 40%-opacity shaft plus a solid,
-                // curved arrowhead — not a stroked line and chevron.
+                // curved arrowhead - not a stroked line and chevron.
                 SvgPicture.asset(
                   'assets/icons/arrow_right.svg',
                   width: 20 * s,

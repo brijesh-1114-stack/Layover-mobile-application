@@ -62,7 +62,7 @@ class _BlurRevealPainter extends StatelessWidget {
   }
 }
 
-/// Blur reveal driven by an external animation — used for entry sequences
+/// Blur reveal driven by an external animation - used for entry sequences
 /// where several elements resolve against one shared timeline.
 class BlurRevealTransition extends StatelessWidget {
   const BlurRevealTransition({
@@ -95,7 +95,7 @@ class BlurRevealTransition extends StatelessWidget {
 
 /// Blur reveal that replays whenever [revealed] flips to true.
 ///
-/// While not revealed the child renders sharp and untouched — an inactive step
+/// While not revealed the child renders sharp and untouched - an inactive step
 /// should look settled, not permanently out of focus.
 class BlurRevealOnActivate extends StatefulWidget {
   const BlurRevealOnActivate({
@@ -136,7 +136,7 @@ class _BlurRevealOnActivateState extends State<BlurRevealOnActivate>
     if (widget.revealed && !oldWidget.revealed) {
       _controller.forward(from: 0);
     } else if (!widget.revealed && oldWidget.revealed) {
-      // Settle instantly rather than blurring back out — only the arriving
+      // Settle instantly rather than blurring back out - only the arriving
       // step should draw attention.
       _controller.value = 1;
     }
