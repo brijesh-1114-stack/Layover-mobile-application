@@ -16,6 +16,11 @@ class Motion {
   /// Screen-to-screen transitions.
   static const Duration transition = Duration(milliseconds: 420);
 
+  /// One card of a split-flap board turning over. Slow enough to read as a
+  /// physical flap falling, short enough that a minute change does not draw the
+  /// eye away from whatever the user was doing.
+  static const Duration flap = Duration(milliseconds: 420);
+
   /// A component changing state in place (a step growing, a chip selecting).
   static const Duration morph = Duration(milliseconds: 560);
 

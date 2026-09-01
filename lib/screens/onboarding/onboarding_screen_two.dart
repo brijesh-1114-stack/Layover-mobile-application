@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text.dart';
 import '../../theme/motion.dart';
-import '../../auth/mock_auth_service.dart';
 import '../../widgets/blur_reveal.dart';
 import '../../widgets/page_transitions.dart';
 import '../auth/auth_flow.dart';
@@ -113,14 +112,17 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo>
 
   void _next() {
     if (_onLastStep) {
-      Navigator.of(context).push(
-        FadeThroughRoute<void>(
-          child: AuthFlowHost(service: MockAuthService()),
-        ),
-      );
+      _toSignIn();
       return;
     }
     setState(() => _active++);
+  }
+
+  /// Skip means "I do not need the tour", not "skip this step", so it jumps
+  /// straight to sign in from wherever the user is.
+  void _toSignIn() {
+    Navigator.of(context)
+        .push(FadeThroughRoute<void>(child: const AuthFlowHost()));
   }
 
   @override
@@ -144,46 +146,46 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo>
         if (!didPop) _handleBack();
       },
       child: AnnotatedRegion<SystemUiOverlayStyle>(
-      // Saturated blue at the top, so the status bar needs light icons - the
-      // opposite of screen 01.
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-        systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.dark,
-      ),
-      child: Scaffold(
-        backgroundColor: AppColors.paper,
-        body: Stack(
-          clipBehavior: Clip.hardEdge,
-          children: [
-            // Positioned must stay a direct child of the Stack - wrapping it in
-            // the AnimatedBuilder silently discarded its coordinates.
-            // The blur is rasterised once inside the RepaintBoundary and only
-            // translated per frame; re-running a 47px gaussian every frame
-            // would drop the animation to a crawl.
-            Positioned(
-              left: -126 * s - _TopGlow.pad * s,
-              top: -323 * s - _TopGlow.pad * s,
-              width: 646 * s + _TopGlow.pad * s * 2,
-              height: 646 * s + _TopGlow.pad * s * 2,
-              child: AnimatedBuilder(
-                animation: _glowRise,
-                builder: (context, child) {
-                  final dy = (1 - _glowRise.value) * media.size.height;
-                  return Transform.translate(
-                    offset: Offset(0, dy),
-                    child: child,
-                  );
-                },
-                child: RepaintBoundary(child: _TopGlow(scale: s)),
+        // Saturated blue at the top, so the status bar needs light icons - the
+        // opposite of screen 01.
+        value: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness: Brightness.dark,
+        ),
+        child: Scaffold(
+          backgroundColor: AppColors.paper,
+          body: Stack(
+            clipBehavior: Clip.hardEdge,
+            children: [
+              // Positioned must stay a direct child of the Stack - wrapping it in
+              // the AnimatedBuilder silently discarded its coordinates.
+              // The blur is rasterised once inside the RepaintBoundary and only
+              // translated per frame; re-running a 47px gaussian every frame
+              // would drop the animation to a crawl.
+              Positioned(
+                left: -126 * s - _TopGlow.pad * s,
+                top: -323 * s - _TopGlow.pad * s,
+                width: 646 * s + _TopGlow.pad * s * 2,
+                height: 646 * s + _TopGlow.pad * s * 2,
+                child: AnimatedBuilder(
+                  animation: _glowRise,
+                  builder: (context, child) {
+                    final dy = (1 - _glowRise.value) * media.size.height;
+                    return Transform.translate(
+                      offset: Offset(0, dy),
+                      child: child,
+                    );
+                  },
+                  child: RepaintBoundary(child: _TopGlow(scale: s)),
+                ),
               ),
-            ),
 
-            Stack(
-              clipBehavior: Clip.hardEdge,
-              children: [
+              Stack(
+                clipBehavior: Clip.hardEdge,
+                children: [
                   // Eyebrow + Skip
                   Positioned(
                     left: 20 * s,
@@ -207,7 +209,7 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo>
                             ),
                           ),
                         ),
-                        _SkipPill(scale: s),
+                        _SkipPill(scale: s, onTap: _toSignIn),
                       ],
                     ),
                   ),
@@ -216,26 +218,27 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo>
                   Positioned(
                     left: 20 * s,
                     right: 20 * s,
-                    bottom: (_frameHeight - 717) * s +
+                    bottom:
+                        (_frameHeight - 717) * s +
                         (safeBottom > 0 ? safeBottom - 12 * s : 0),
                     child: BlurRevealTransition(
                       animation: _stepsIn,
                       child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        for (var i = 0; i < _steps.length; i++) ...[
-                          if (i > 0) SizedBox(height: 30 * s),
-                          _StepRow(
-                            step: _steps[i],
-                            active: i == _active,
-                            scale: s,
-                            duration: _morph,
-                            curve: _curve,
-                          ),
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (var i = 0; i < _steps.length; i++) ...[
+                            if (i > 0) SizedBox(height: 30 * s),
+                            _StepRow(
+                              step: _steps[i],
+                              active: i == _active,
+                              scale: s,
+                              duration: _morph,
+                              curve: _curve,
+                            ),
+                          ],
                         ],
-                      ],
-                    ),
+                      ),
                     ),
                   ),
 
@@ -255,11 +258,11 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo>
                       ),
                     ),
                   ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -453,9 +456,24 @@ class _TopGlow extends StatelessWidget {
       imageFilter: ImageFilter.blur(sigmaX: 47 * s, sigmaY: 47 * s),
       child: Stack(
         children: [
-          _Circle(size: 646 * s, left: p, top: p, color: AppColors.glowTopOuter),
-          _Circle(size: 464 * s, left: 91 * s + p, top: 91 * s + p, color: AppColors.glowTopMid),
-          _Circle(size: 347 * s, left: 150 * s + p, top: 150 * s + p, color: AppColors.glowTopCore),
+          _Circle(
+            size: 646 * s,
+            left: p,
+            top: p,
+            color: AppColors.glowTopOuter,
+          ),
+          _Circle(
+            size: 464 * s,
+            left: 91 * s + p,
+            top: 91 * s + p,
+            color: AppColors.glowTopMid,
+          ),
+          _Circle(
+            size: 347 * s,
+            left: 150 * s + p,
+            top: 150 * s + p,
+            color: AppColors.glowTopCore,
+          ),
         ],
       ),
     );
@@ -490,9 +508,10 @@ class _Circle extends StatelessWidget {
 }
 
 class _SkipPill extends StatelessWidget {
-  const _SkipPill({required this.scale});
+  const _SkipPill({required this.scale, required this.onTap});
 
   final double scale;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -509,7 +528,7 @@ class _SkipPill extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(999),
-            onTap: () {},
+            onTap: onTap,
             child: Center(
               child: Text(
                 'Skip',

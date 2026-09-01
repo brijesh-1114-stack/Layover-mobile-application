@@ -6,10 +6,7 @@
 /// name and no age check; branching on completeness sends them back to the
 /// first missing field.
 class AuthResult {
-  const AuthResult({
-    required this.userId,
-    required this.profileComplete,
-  });
+  const AuthResult({required this.userId, required this.profileComplete});
 
   final String userId;
   final bool profileComplete;

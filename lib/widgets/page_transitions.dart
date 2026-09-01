@@ -10,28 +10,28 @@ import '../theme/motion.dart';
 /// one still so the gradients cross-dissolve instead of racing each other.
 class FadeThroughRoute<T> extends PageRouteBuilder<T> {
   FadeThroughRoute({required this.child})
-      : super(
-          transitionDuration: Motion.transition,
-          reverseTransitionDuration: Motion.transition,
-          pageBuilder: (context, animation, secondaryAnimation) => child,
-          transitionsBuilder: (context, animation, secondary, page) {
-            final eased = CurvedAnimation(
-              parent: animation,
-              curve: Motion.enter,
-              reverseCurve: Motion.exit,
-            );
-            return FadeTransition(
-              opacity: eased,
-              child: SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, 0.035),
-                  end: Offset.zero,
-                ).animate(eased),
-                child: page,
-              ),
-            );
-          },
-        );
+    : super(
+        transitionDuration: Motion.transition,
+        reverseTransitionDuration: Motion.transition,
+        pageBuilder: (context, animation, secondaryAnimation) => child,
+        transitionsBuilder: (context, animation, secondary, page) {
+          final eased = CurvedAnimation(
+            parent: animation,
+            curve: Motion.enter,
+            reverseCurve: Motion.exit,
+          );
+          return FadeTransition(
+            opacity: eased,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 0.035),
+                end: Offset.zero,
+              ).animate(eased),
+              child: page,
+            ),
+          );
+        },
+      );
 
   final Widget child;
 }

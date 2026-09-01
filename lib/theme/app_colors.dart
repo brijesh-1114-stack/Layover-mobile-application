@@ -16,6 +16,23 @@ class AppColors {
   static const accent = Color(0xFF0B79F0);
   static const accentStrong = Color(0xFF0A5FC7);
   static const accentTint = Color(0xFFE7F2FE);
+  static const accentSelectedBg = Color(0xFFF4F9FF);
+
+  /// Failure. [error] is the darkest of the three because it is the only one
+  /// that carries text, and the lighter reds fall under 4.5:1 on white.
+  static const error = Color(0xFFC7292E);
+  static const errorBorder = Color(0xFFE5484D);
+  static const errorBg = Color(0xFFFDECEC);
+
+  /// "Running out", which is not a failure - the wait ending is the normal
+  /// case, so it gets its own amber rather than borrowing the error red.
+  static const warning = Color(0xFF8A5A00);
+  static const warningBorder = Color(0xFFFFDFA1);
+  static const warningBg = Color(0xFFFFF7E6);
+
+  /// The amber above is unreadable on the ink card, so the flip clock uses a
+  /// brighter step of the same ramp.
+  static const warningOnInk = Color(0xFFF5B740);
 
   /// The three blurred circles that make the hero glow on screen 01.
   static const glowOuter = Color(0xFF6EC4FF);

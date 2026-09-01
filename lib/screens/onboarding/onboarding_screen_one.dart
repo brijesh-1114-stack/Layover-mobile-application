@@ -54,20 +54,25 @@ class _OnboardingScreenOneState extends State<OnboardingScreenOne>
     duration: const Duration(milliseconds: 2200),
   );
 
-  Animation<double> _on(double begin, double end,
-          {Curve curve = Motion.enter}) =>
-      CurvedAnimation(
-        parent: _entry,
-        curve: Interval(begin, end, curve: curve),
-      );
+  Animation<double> _on(
+    double begin,
+    double end, {
+    Curve curve = Motion.enter,
+  }) => CurvedAnimation(
+    parent: _entry,
+    curve: Interval(begin, end, curve: curve),
+  );
 
   /// Splash: the mark resolves out of blur, then holds while nothing else moves.
   late final Animation<double> _markReveal = _on(0.00, 0.22);
 
   /// The flight into the header. An in-place curve, not an entrance one - this
   /// is a single object moving, so it eases out of rest and back into it.
-  late final Animation<double> _markFlight =
-      _on(0.34, 0.60, curve: Motion.inPlace);
+  late final Animation<double> _markFlight = _on(
+    0.34,
+    0.60,
+    curve: Motion.inPlace,
+  );
 
   /// Backdrop and artwork arrive underneath the mark as it travels.
   late final Animation<double> _backdrop = _on(0.48, 0.80);
@@ -106,7 +111,8 @@ class _OnboardingScreenOneState extends State<OnboardingScreenOne>
     final safeTop = media.padding.top;
     final safeBottom = media.padding.bottom;
 
-    final glowTop = safeTop +
+    final glowTop =
+        safeTop +
         (logoTop + logoHeight + _gapToArt + _artHeight + _artToGlow) * s;
 
     return Scaffold(
@@ -186,9 +192,7 @@ class _OnboardingScreenOneState extends State<OnboardingScreenOne>
                   ),
                 ),
               ),
-              SizedBox(
-                height: safeBottom > 0 ? safeBottom + 10 * s : 37 * s,
-              ),
+              SizedBox(height: safeBottom > 0 ? safeBottom + 10 * s : 37 * s),
             ],
           ),
 
@@ -225,7 +229,8 @@ class _FlyingWordmark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = scale;
-    const ratio = _OnboardingScreenOneState.logoHeight /
+    const ratio =
+        _OnboardingScreenOneState.logoHeight /
         _OnboardingScreenOneState.logoWidth;
 
     final smallW = _OnboardingScreenOneState.logoWidth * s;
@@ -297,9 +302,24 @@ class _Glow extends StatelessWidget {
           imageFilter: ImageFilter.blur(sigmaX: 47 * s, sigmaY: 47 * s),
           child: Stack(
             children: [
-              _Circle(size: 646 * s, left: pad, top: pad, color: AppColors.glowOuter),
-              _Circle(size: 464 * s, left: 91 * s + pad, top: 91 * s + pad, color: AppColors.glowMid),
-              _Circle(size: 347 * s, left: 150 * s + pad, top: 150 * s + pad, color: AppColors.glowCore),
+              _Circle(
+                size: 646 * s,
+                left: pad,
+                top: pad,
+                color: AppColors.glowOuter,
+              ),
+              _Circle(
+                size: 464 * s,
+                left: 91 * s + pad,
+                top: 91 * s + pad,
+                color: AppColors.glowMid,
+              ),
+              _Circle(
+                size: 347 * s,
+                left: 150 * s + pad,
+                top: 150 * s + pad,
+                color: AppColors.glowCore,
+              ),
             ],
           ),
         ),
@@ -373,7 +393,11 @@ class _Copy extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _Line(animation: headline1, text: 'Wherever you’re stuck,', style: head),
+          _Line(
+            animation: headline1,
+            text: 'Wherever you’re stuck,',
+            style: head,
+          ),
           _Line(animation: headline2, text: 'you’re not alone.', style: head),
           SizedBox(height: 16 * s),
           _Line(
